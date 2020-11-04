@@ -15,8 +15,8 @@ Simple workflow to validate a VCF (or GVCF) -- NOT Best Practices, only for teac
 
 ### Outputs
 
-- A list of text files containing the tool's standard output, which will contain the relevant error message 
-  if the tool encounters a validation error. 
+- A list of text files (for each scatter chunk)containing the tool's standard output, which will contain the 
+  relevant error message if the tool encounters a validation error. 
   
 **Important note:** The tool will produce a non-zero return code if it finds an error. The Cromwell workflow 
 management system considers this to mean the workflow failed even if the tool worked properly. In Terra, this 
