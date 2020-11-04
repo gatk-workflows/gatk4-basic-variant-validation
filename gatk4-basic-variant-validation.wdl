@@ -106,7 +106,7 @@ task ValidateVariants {
       description: "a VCF file used as input",
       localization_optional: true
     }
-    input_vcf_indexices: {
+    input_vcf_index: {
       description: "an index file for the VCF file used as input",
       localization_optional: true
     }
