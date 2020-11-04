@@ -85,6 +85,17 @@ task ValidateVariants {
     
   Int machine_mem_gb = select_first([mem_gb, 7])
   Int command_mem_gb = machine_mem_gb - 1
+  
+  parameter_meta {
+    input_vcf: {
+      description: "a VCF file used as input",
+      localization_optional: true
+    }
+    input_vcf_indexices: {
+      description: "an index file for the VCF file used as input",
+      localization_optional: true
+    }
+  }
  
   command {
     ~{gatk_path} --java-options "-Xmx~{command_mem_gb}G ~{java_opt}" \
