@@ -2,13 +2,18 @@ version 1.0
 
 ## Copyright Broad Institute, 2020
 ## 
-## This WDL performs format validation on a VCF (incl. GVCF) file
+## This WDL performs format validation on a VCF file (incl. GVCF) 
 ##
-## Requirements/expectations :
-## - One VCF file to validate (GVCF ok with `-gvcf` flag set to true)
+## Requirements/expectations 
+## - One VCF file to validate (GVCF ok with `-gvcf` flag set to true) and its index
+## - A list of intervals to process (for parallelization)
+## - Genomic resources: reference genome in FASTA format (.fasta) and its accessory files (.fasta.fai and .dict)
 ##
-## Output:
-## - One text file containing the standard output from the validation command
+## Optional inputs
+## - Resourcing and environment parameters including memory, disk space and container are all customizable
+##
+## Output
+## - A list of text files containing the standard output from the validation command for each interval
 ##
 ## Cromwell version support 
 ## - Successfully tested with 53.1 
@@ -29,6 +34,8 @@ workflow BasicVariantValidation {
     File input_vcf
     File input_vcf_index
 
+    File interval_list
+    
     File ref_fasta
     File ref_fasta_index
     File ref_dict
@@ -37,21 +44,27 @@ workflow BasicVariantValidation {
     String gatk_docker = "broadinstitute/gatk:4.1.8.1"
   }
 
-  # Run the validation 
-  call ValidateVariants {
-    input:
-      input_vcf = input_vcf,
-      input_vcf_index = input_vcf_index,
-      ref_fasta = ref_fasta,
-      ref_fasta_index =ref_fasta_index,
-      ref_dict = ref_dict,
-      gatk_path = gatk_path,
-      docker = gatk_docker
+  Array[String] intervals = read_lines(interval_list)
+
+  scatter (interval in intervals) {
+  
+    # Run the validation 
+    call ValidateVariants {
+      input:
+        input_vcf = input_vcf,
+        input_vcf_index = input_vcf_index,
+        interval = interval,
+        ref_fasta = ref_fasta,
+        ref_fasta_index =ref_fasta_index,
+        ref_dict = ref_dict,
+        gatk_path = gatk_path,
+        docker = gatk_docker
+    }
   }
 
   # Outputs that will be retained when execution is complete
   output {
-    File validation_report = ValidateVariants.report
+    Array[File] validation_report = ValidateVariants.report
   }
 }
 
@@ -62,6 +75,8 @@ task ValidateVariants {
   input {
     File input_vcf
     File input_vcf_index
+    
+    String interval
 
     File ref_fasta
     File ref_fasta_index
@@ -102,6 +117,7 @@ task ValidateVariants {
       ValidateVariants \
       -R ~{ref_fasta} \
       -V ~{input_vcf} \
+      -L ~{interval} \
       -gvcf ~{gvcf_mode} \
       --disable-sequence-dictionary-validation ~{skip_seq_dict} 
   }
