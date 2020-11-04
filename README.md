@@ -1,11 +1,11 @@
-# gatk4-validate-variants
-Simple workflow to validate a VCF (or GVCF)n NOT Best Practices, only for teaching/demo purposes.
+# gatk4-basic-variant-validation
+Simple workflow to validate a VCF (or GVCF) -- NOT Best Practices, only for teaching/demo purposes.
 
 ## Inputs and outputs 
 
 ### Required inputs
 
-- One VCF file or GVCF file
+- One VCF file or GVCF file and its index (can be bgzip/tabix)
 - Genomic resources: reference genome in FASTA format (.fasta) and its accessory files (.fasta.fai and .dict)
 
 ### Optional inputs 
@@ -14,5 +14,5 @@ Simple workflow to validate a VCF (or GVCF)n NOT Best Practices, only for teachi
 
 ### Outputs
 
-- A validation report in text format
+- A validation report in text format containing the stdout
 
