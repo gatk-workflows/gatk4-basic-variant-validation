@@ -6,6 +6,7 @@ Simple workflow to validate a VCF (or GVCF) -- NOT Best Practices, only for teac
 ### Required inputs
 
 - One VCF file or GVCF file and its index (can be bgzip/tabix)
+- A list of intervals to process (for parallelization)
 - Genomic resources: reference genome in FASTA format (.fasta) and its accessory files (.fasta.fai and .dict)
 
 ### Optional inputs 
