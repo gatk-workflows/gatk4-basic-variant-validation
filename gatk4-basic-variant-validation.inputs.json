@@ -3,5 +3,5 @@
   "BasicVariantValidation.input_vcf_index": "gs://genomics-in-the-cloud/v1/data/germline/vcfs/motherSNP.vcf.gz.tbi",
   "BasicVariantValidation.ref_fasta": "gs://genomics-in-the-cloud/v1/data/germline/ref/ref.fasta",
   "BasicVariantValidation.ref_fasta_index": "gs://genomics-in-the-cloud/v1/data/germline/ref/ref.fasta.fai",
-  "BasicVariantValidation.ref_dict": "gs://genomics-in-the-cloud/v1/data/germline/ref/ref.dict",
+  "BasicVariantValidation.ref_dict": "gs://genomics-in-the-cloud/v1/data/germline/ref/ref.dict"
 }
